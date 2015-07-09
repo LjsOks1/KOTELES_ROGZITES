@@ -1,0 +1,11 @@
+v4l2src ! video/x-raw,width=400,height=300 ! queue ! \
+deinterlace ! clockoverlay time-format="%Y-%m-%d %H:%M:%S" \
+    halignment=2 shaded-background=true font-desc="Arial 14" ! \
+textoverlay name=overlay wait-text=false shaded-background=true \
+     ignore-duration=true font-desc="Arial 14" ! \
+x264enc ! queue ! mpegtsmux name=mux ! \
+hlssink location=/var/www/html/m2test/m2test__segment%05d.ts \
+    playlist-location=/var/www/html/m2test/playlist.m3u8 max-files=16000 \
+alsasrc device=hw:0,0 typefind=true buffer-time=400000 ! queue! audiorate ! \
+audioresample ! audio/x-raw,rate=48000 ! queue! voaacenc bitrate=32000 ! \
+aacparse ! queue ! mux.

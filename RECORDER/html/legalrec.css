@@ -1,0 +1,33 @@
+.datepicker {
+   display:inline-block;
+}
+#left-frame {
+   margin-left : 10px;
+}
+
+.btn-group {
+   width:100%;
+}
+
+.btn {
+   width:100%;
+   margin-bottom:3px;
+
+}
+.dropdown-menu {
+//   width:100%;
+}
+#timepicker1 {
+   width:100%;
+}
+#HLSPlayer {
+   box-shadow: 4px 5px 10px;
+}
+.page-header {
+   margin-left: 10px;
+}
+
+div#left-frame {
+   width:300px;
+}
+

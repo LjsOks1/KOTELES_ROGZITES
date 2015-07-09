@@ -1,0 +1,5 @@
+Checkout to the source tree of gst-plugins-bad
+to the ext/hls folder.
+
+To compile you need the plugin source tree, specially the gst-libs folder.
+

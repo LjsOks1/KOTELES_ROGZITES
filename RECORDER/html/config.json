@@ -1,0 +1,36 @@
+{
+    "streams": 
+        {
+            "m2": {
+                "input-path": "/m2/playlist.m3u8",
+                "servers": [
+                    "http://10.51.11.61"
+                ]
+            },
+            "m1": {
+                "input-path": "/m1/playlist.m3u8",
+                "servers": [
+                    "http://10.51.11.62"
+                ]
+            },
+            "m3": {
+                "input-path": "/m3/playlist.m3u8",
+                "servers": [
+                    "http://10.51.11.61"
+                ]
+            },
+            "duna": {
+                "input-path": "/duna/playlist.m3u8",
+                "servers": [
+                    "http://10.51.11.61"
+                ]
+            },
+            "dunaworld": {
+                "input-path": "/dunaworld/playlist.m3u8",
+                "servers": [
+                    "http://10.51.11.61"
+                ]
+            }
+        }
+    
+}

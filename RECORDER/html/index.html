@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   <title>MTVA Köteles rögzítő rendszer</title>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <script type="text/javascript" src="./jwplayer/jwplayer.js"></script> 
+   <!-- Bootstrap -->
+   <link href="css/bootstrap.min.css" rel="stylesheet">
+   <link href="css/bootstrap-timepicker.css" rel="stylesheet">
+   <link href="css/datepicker3.css" rel="stylesheet">
+   <link rel="stylesheet" type="text/css" href="scripts/libs/timeline/css/timeline.css">
+   <link href="legalrec.css" rel="stylesheet">
+
+
+   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+   <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+   <![endif]-->
+
+</head>
+
+<body>
+   <div class="page-header">
+       <h1><small>MTVA - köteles rögzítő rendszer</small></h1>
+   </div>
+   <div class="row">
+      <div class="col-md-2 text-center" id="left-frame">
+         <div class="panel panel-default">
+            <div class="panel-heading">         
+               <h5 class="panel-title"><small>Élő adás</small></h5>
+            </div>
+            <div class="panel-body">
+               <button type="button" id="view-live" channel="m1" class="btn btn-default view-live" style="width:32%;"><small> M1</small></button>
+               <button type="button" id="view-live" channel="m2" class="btn btn-default view-live" style="width:32%;"><small> M2</small></button>
+               <button type="button" id="view-live" channel="m3" class="btn btn-default view-live" style="width:32%;"><small> M3</small></button>
+               
+               <button type="button" id="view-live" channel="duna" class="btn btn-default view-live" style="width:32%;"><small> Duna</small></button>
+               <button type="button" id="view-live" channel="dunaworld" class="btn btn-default view-live" style="width:32%;"><small> Duna World</small></button>
+               <button type="button" id="view-live" channel="_" class="btn btn-default view-live" style="width:32%;">-- </button>
+            </div>
+         </div>
+         <div class="panel panel-default">
+            <div class="panel-heading">         
+               <h5 class="panel-title"><small>Felvétel</small></h5>
+            </div>
+            <div class="panel-body">
+               <table class="table">
+               <tr>
+               <td><h4 class="text-left"><small>Csatorna:</small></h4></td>
+	       <td>
+               <div class="btn-group text-left" id="btn-channel">
+                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                       M1 <span class="caret"></span>
+                   </button>
+                   <ul class="dropdown-menu" role="menu">
+                        <li><a id="m1" href="#">M1</a></li>
+                        <li><a id="m2" href="#">M2</a></li>
+                        <li><a id="m3" href="#">M3</a></li>
+                        <li><a id="duna" href="#">Duna</a></li>
+                        <li><a id="dunaworld" href="#">Duna Word</a></li>
+                   </ul>
+               </div> </td>
+	       </tr> 
+               <tr><td><h4 class="text-left"><small>Dátum:</small></h4></td>
+	       <td>
+               <div class="input-group date">
+                   <input type="text" class="form-control">
+                       <span class="input-group-addon">
+                          <i class="glyphicon glyphicon-th"></i>
+                       </span>
+               </div> </td></tr>
+              </table>
+               <button type="button" id="view-archive" class="btn" style="width:95%;">
+                  <span class="glyphicon glyphicon-play"></span>
+               </button>
+            </div>
+         </div>
+      </div>
+      <div class="col-md-8">
+         <div class="row">
+            <div id="HLSPlayer">Loading...</div>
+         </div>
+         <div class="row">
+            <div class="btn-group" style="padding-top:10px;">
+               <button offset=-3600 type="button" class="btn btn-default btn-seek" style="width:72px;">-1h</button>
+               <button offset=-600 type="button" class="btn btn-default btn-seek" style="width:72px;">-10m</button>
+               <button offset=-60 type="button" class="btn btn-default btn-seek" style="width:72px;">-1m</button>
+               <button offset=-10 type="button" class="btn btn-default btn-seek" style="width:72px;">-10s</button>
+               <button id="btn_play" type="button" class="btn btn-default" style="width:72px;height:34px;">
+                  <i class="glyphicon glyphicon-play"></i>
+               </button>
+               <button offset=10 type="button" class="btn btn-default btn-seek" style="width:72px;">+10s</button>
+               <button offset=60 type="button" class="btn btn-default btn-seek" style="width:72px;">+1m</button>
+               <button offset=600 type="button" class="btn btn-default btn-seek" style="width:72px;">+10m</button>
+               <button offset=3600 type="button" class="btn btn-default btn-seek" style="width:72px;">+1h</button>
+           </div>
+         </div>
+      </div>
+   </div>
+   <div class="row" style="margin:10px;">
+       <div id="my-timeline"></div>
+   </div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="js/bootstrap-timepicker.js"></script>
+<script type="text/javascript" src="js/date.js"></script>
+<script type="text/javascript" src="scripts/libs/timeline/js/storyjs-embed.js"></script>
+<script type="text/javascript" src="scripts/libs/timeline/js/timeline.js"></script>
+
+
+<script type="text/javascript">
+var selected_channel;
+var selected_date;
+var selected_time;
+var date_picker;
+var timeline;
+
+function play_channel_date(channel,selected_date) {
+  if(typeof(selected_date)==='undefined') selected_date=date2string($.now())
+  var playlist_file=[
+   {file:"http://10.51.11.60/".concat(channel,"/",selected_date.replace(/\//g,""),"/playlist.m3u8")} 
+  ];
+   
+  jwplayer("HLSPlayer").load(playlist_file);
+  jwplayer("HLSPlayer").play();
+  loadTimeline(channel,selected_date) 
+}
+ 
+function date2string(d_) {
+   var d=new Date(d_);
+   var cur_date=d.getDate();
+   var cur_month=d.getMonth()+1;
+   var cur_year=d.getFullYear();
+
+   return cur_year.toString().concat("/",pad(cur_month,2),"/",pad(cur_date,2));
+}
+
+function time2sec(t) {
+   var s=t.split(/[: ]/);
+   var sec = parseInt(s[0])*3600+parseInt(s[1])*60;
+   return sec;
+}
+function loadTimeline(channel,s_date) {
+      if (VMM.Timeline.TimeNav.prototype._setMarker!==undefined) {
+          VMM.Timeline.TimeNav.prototype._setMarker(0)
+          VMM.Timeline.prototype._reload("")
+      }
+      $("#my-timeline").off()
+      $("#my-timeline").empty()
+      $("#my-timeline").replaceWith("<div id='my-timeline'></div>");
+      timeline=null
+      $.ajax({
+	dataType : "json",
+        url: channel+"/"+s_date.replace(/\//g,"")+'/asrun.json',
+	success: function(response, status, jqXHR) { 
+		var dataObject = response
+		timeline=createStoryJS({
+
+		       type:       'timeline',
+		       width:      '100%',
+		       height:     '700',
+		       source:     dataObject,
+		       debug:      false,
+		       embed_id:   'my-timeline',
+                       start_zoom_adjust: '-1',
+    		    });
+//	        VMM.Timeline.TimeNav.prototype._setMarker(3);
+	},
+	error: function(jqXHR, status, error) { 
+//		window.alert("Az As-run log betöltése nem sikerült!")
+                start_date=s_date.substr(0,4).concat(",",s_date.substr(5,2),",",s_date.substr(8,2),",0,0,0");
+                end_date=s_date.substr(0,4).concat(",",s_date.substr(5,2),",", s_date.substr(8,2),",23,59,59");
+	        var dataObject = {"timeline": {"headline":"Hiányzó As-run log!",
+                    "type":"default",
+                    "text":"" ,
+                    "date": [{"headline":"Hiányzó As-run log!", 
+                             "startDate":start_date,
+                              "endDate":end_date,
+                              "asset":{"media":"","caption":"Hello","credit":""},
+                              "text":"Hiányzó As-run log!"}]}}
+                timeline=createStoryJS({
+		       type:       'timeline',
+		       width:      '100%',
+		       height:     '700',
+		       source:     dataObject,
+		       debug:      true,
+		       embed_id:   'my-timeline',
+                       start_zoom_adjust: '-1',
+    		    });
+	          
+        }
+      }); 
+
+   $( "#my-timeline" ).on({
+      LOADED: function(event,data) {
+         console.log("LOADED received from " + event.target.className );
+	     if(event.target.className=="vco-navigation") {
+//          VMM.Timeline.TimeNav.prototype._setMarker(3);
+            if (selected_date==date2string(new Date())) {
+                seek_date=new Date()
+            }
+            else {
+               seek_date=new Date(selected_date)
+               seek_date.setHours(12)
+            }
+            VMM.Timeline.TimeNav.prototype._gotoDate(seek_date.valueOf()) 
+            $(".vco-navigation").on({
+                UPDATE: function(event,data) {
+		           var startDate
+                   console.log("UPDATE received from " + event.target.className );
+                   startDate=VMM.Timeline.Config.source.timeline.
+                         date[VMM.Timeline.Config.current_slide].startDate.split(",");
+                   cue_seconds=parseInt(startDate[3])*3600+parseInt(startDate[4])*
+                         60+parseInt(startDate[5]);
+                   jwplayer("HLSPlayer").seek(cue_seconds);
+		        }
+	        });
+	     }   
+      } 
+   });					
+}
+
+$(function() {
+   selected_channel="m1";
+   selected_date=date2string($.now());
+   
+   loadTimeline(selected_channel,selected_date);
+	
+   $(".btn-seek").on("click", function() {
+      var pos=jwplayer("HLSPlayer").getPosition();
+      jwplayer("HLSPlayer").seek(pos+parseInt(this.attributes["offset"].nodeValue));
+   });
+  $("#btn_play").click(function() {
+      jwplayer("HLSPlayer").play();
+   });
+
+   $(".input-group.date").datepicker({
+      format: "yyyy/mm/dd",
+      startDate:"2014/05/29",
+      endDate:  date2string($.now()),
+      todayHighlight: true,
+      autoclose : true,
+      orientation: "left bottom",
+   })
+   .on("changeDate",function(e) {
+      selected_date=date2string(e.date);
+   });
+
+   $(".input-group.date").datepicker("update",selected_date);
+
+   $(".dropdown-menu li a").click(function(){
+       var selText = $(this).text();
+       selected_channel=$(this)[0].id;
+       $(this).parents('.btn-group').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
+   });
+   $(".view-live").on("click",function() {
+       selected_date=date2string(new Date())
+       play_channel_date(this.attributes["channel"].nodeValue)
+   });
+   $("#view-archive").click(function() {
+       if(!selected_channel | !selected_date) {
+           alert("Kérem válasszon csatornát és dátumot!");
+       }
+       else {
+          selected_date=date2string($(".input-group.date").datepicker("getDate"))
+          play_channel_date(selected_channel,selected_date)
+       }
+   });
+});
+
+function pad(num, size) {
+    var s = "000000000" + num;
+    return s.substr(s.length-size);
+}
+
+var playlist_file="http://10.51.11.60/".concat("m1/",date2string($.now()).replace(/\//g,""),"/playlist.m3u8")
+ 
+jwplayer("HLSPlayer").setup({
+   width: 640,
+   height: 360,
+   controls : {"enable" : false},
+//   autostart:true,
+   skin: "./jwplayer/skin/classic.zip",
+   "controlbar.idlehide":true,
+   controlbar:"none",
+   modes: [ { type:'flash', src:'./jwplayer/player.swf', 
+                       config: { provider:'./jwplayer/HLSProvider5.swf',file:playlist_file}} ,
+            { type:'html5',config:{file:playlist_file}}
+          ]
+});
+
+jwplayer("HLSPlayer").play()
+
+jwplayer("HLSPlayer").onPlay(function(e) {
+    $("#btn_play i").attr("class","glyphicon glyphicon-pause");
+});
+jwplayer("HLSPlayer").onPause(function(e) {
+    $("#btn_play i").attr("class","glyphicon glyphicon-play");
+}); 
+</script> 
+
+</html>

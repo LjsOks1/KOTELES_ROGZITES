@@ -1,0 +1,93 @@
+﻿Az ENCODER gépek telepítési utasítása:
+===========================================
+
+1. BEVEZETŐ
+------------
+Az encoder gépek feladata, hogy az élő videójelet digitalizálják, és a digitalizált jelfolyamot HLS 
+(HTTP Live STreaming) formátumban a recorder gép számára elérhetővé tegyék. Egy encoder gép több 
+videójelet is rögzíteni tud, az installált videó kártyák függvényében.
+
+A videójel digitalizálására és a HLS (HTTP Live Streaming) jelfolyam előállítására az encoder 
+számítógép számos nyílt forráskódú projektet használ fel. Ezek közül néhányat változtatás nélkül, 
+néhányat kisebb módosítás, javítás és bővítés után használ a rendszer.
+
+
+2. A LINUX RENDSZER TELEPÍTÉSE
+-------------------------------
+
+Ajánlott USB kulcsról bootolva a Debian Jessie verzióját telepíteni. A bootolható USB kulcs 
+elkészítéséhez a következő diskimager használható:
+     http://sourceforge.net/projects/win32diskimager/files/
+	 
+A 64 bites Debian Jessie netinstall image letölthető a következő címről:
+     http://cdimage.debian.org/cdimage/jessie_di_alpha_1/amd64/iso-cd/debian-jessie-DI-a1-amd64-netinst.iso
+	 
+A telepítésnél a http proxy szerver címe: http://192.168.50.56:8080
+
+A telepítésnél nem kell a desktop opció, csak az SSH szervert és a standard system utilityket kell
+telepíteni.
+
+Az installáció befejezése után a következő további csomagokat kell telepíteni:
+
+	apt-get update
+	apt-get install mc
+	apt-get install ntp
+		Ntp konfigja az /etc/ntp.conf fileban.
+		NTP szerverek: 10.28.98.32, 10.31.11.1, 10.120.100.5, 10.120.100.100, 10.121.32.10
+		Install után meg kell állítani az ntp szervert (/etc/init.d/ntp stop) le kell futtatni az 
+		ntpd –gq parancsot és újra kell indítani az ntp szervert. Ez után az órának már pontosan kell járnia.
+	apt-get install gstreamer-1.0
+	apt-get install gstreamer1.0
+	apt-get install libgstreamer-plugins-base1.0-dev
+	apt-get install automake
+	apt-get install zvbi
+	apt-get install libzvbi-dev
+	apt-get install lighttpd
+	apt-get install gtk-doc-tools
+	apt-get install libpango1.0-dev
+	apt-get install libcairo2-dev
+	apt-get install libgnutls-dev
+	apt-get install nettle-dev    #needed to use the new hlssink!!!
+	apt-get install subversion
+	
+	
+A telepítés után célszerű a gép IP számát rögzíteni. (alapesetben DHCP-s címe lesz.)
+Ezt az /etc/network/interfaces file-ban lehet megtenni.
+
+2. CUSTOM GSTREAMER PLUGINS
+===========================
+In /usr/local/share/config.site (create this file if necessary), add the line:
+CPPFLAGS="$CPPFLAGS -I/usr/include/cairo"
+
+
+
+3. mtva-encoder TELEPÍTÉSE
+===========================
+
+As root user:
+
+cd /usr/local/src
+svn checkout http://10.28.98.14/viewvc/mtva/KOTELES_ROGZITES/ENCODER/mtva-encoder
+cd /usr/local/src/mtva-encoder
+./autogen.sh
+make
+make install
+
+4. A régi média file-ok törlése
+================================
+
+root felhasználóként: crontab -e
+A megnyíló szövegszerkesztőbe a következő sort kell beszúrni minden csatornára:
+
+ 0  1  *  *  *  find /var/www/html/m2/*.ts -mtime +3 -exec rm {} \;
+
+A fenti sorban a csatornának megfelelő elérési útvonalat kell beállítani. Ha több csatorna is van,
+érdemes a parancsokat egymáshoz képest időben eltolva futtatni.
+ 
+
+
+
+
+
+
+
